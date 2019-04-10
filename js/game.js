@@ -83,6 +83,8 @@ function main() {
     // === Initialisation ===
     const resolution = 50;
 
+    const day = 10; // seconds
+
     // get the canvas element & gl rendering 
     const canvas = document.getElementById("c");
     const gl = canvas.getContext("webgl");
@@ -112,14 +114,44 @@ function main() {
     
     // create a solar system
 
-    const yellow = [1,1,0,1];               // Yellow = Red + Green
+    const yellow = [1, 1, 0, 1];               // Yellow = Red + Green
+    const blue = [0, 0, 1, 1];
+    const grey = [0.5, 0.5, 0.5, 1];
+    const red = [1, 0, 0, 1];
+    const white = [1, 1, 1, 1];
+
     const sun = new Circle(yellow);
+
+    // earth is 5 units from the sun and 1/4 its size
+    const earth = new Circle(blue);
+    earth.parent = sun;
+    earth.translation = [5, 0];
+    earth.scale = 0.25;
+
+    // moon is 2 units from the earth and 1/2 its size
+    const moon = new Circle(grey);
+    moon.parent = earth;
+    moon.translation = [0, 2];
+    moon.scale = 0.5;
+
+    const mars = new Circle(red);
+    mars.parent = sun;
+    const phobos = new Circle(grey);
+    phobos.parent = mars;
+    const deimos = new Circle(white);
+    deimos.parent = mars;
+
+    console.log("Earth's parent " + earth.parent);
+    console.log("Sun's children " + sun.children);
+    console.log("Mar's parent " + mars.parent);
+
 
     // === Per Frame operations ===
 
     // update objects in the scene
     let update = function(deltaTime) {
-        
+        // rotate the earth once per day
+        earth.rotation += Math.PI * 2 * deltaTime / day;
     };
 
     // redraw the scene
@@ -136,7 +168,9 @@ function main() {
         gl.uniformMatrix3fv(viewMatrixUniform, false, viewMatrix);
 
         // render everything
-        sun.renderSelf(gl, colourUniform);
+        gl.uniformMatrix3fv(
+            worldMatrixUniform, false, Matrix.identity());
+        sun.render(gl, worldMatrixUniform, colourUniform);
     };
 
     // animation loop
