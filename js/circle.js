@@ -13,10 +13,10 @@ class Circle extends GameObject {
 
         const nSides = 8;
         this.colour = colour;
-        this.points = new Float32Array(this.nSides * 2);
+        this.points = new Float32Array(nSides * 2);
 
-        const theta = 2 * Math.PI / this.nSides;
-        for (let i = 0; i < this.nSides; i++) {
+        const theta = 2 * Math.PI / nSides;
+        for (let i = 0; i < nSides; i++) {
             this.points[2*i] = Math.cos(i * theta);     // set the x coordinate
             this.points[2*i+1] = Math.sin(i * theta);   // set the y coordinate
         }

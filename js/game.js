@@ -113,9 +113,10 @@ function main() {
     gl.vertexAttribPointer(positionAttribute, 2, gl.FLOAT, false, 0, 0);
     
     // create a solar system
-
+	// the "sun" is actually deimos, need to change size and pos on it
     const yellow = [1, 1, 0, 1];               // Yellow = Red + Green
     const blue = [0, 0, 1, 1];
+    const green = [0, 1, 0, 1];
     const grey = [0.5, 0.5, 0.5, 1];
     const red = [1, 0, 0, 1];
     const white = [1, 1, 1, 1];
@@ -138,13 +139,8 @@ function main() {
     mars.parent = sun;
     const phobos = new Circle(grey);
     phobos.parent = mars;
-    const deimos = new Circle(white);
+    const deimos = new Circle(green);
     deimos.parent = mars;
-
-    console.log("Earth's parent " + earth.parent);
-    console.log("Sun's children " + sun.children);
-    console.log("Mar's parent " + mars.parent);
-
 
     // === Per Frame operations ===
 
@@ -170,7 +166,7 @@ function main() {
         // render everything
         gl.uniformMatrix3fv(
             worldMatrixUniform, false, Matrix.identity());
-        sun.render(gl, worldMatrixUniform, colourUniform);
+        sun.render(gl, worldMatrixUniform, colourUniform, Matrix.identity());
     };
 
     // animation loop

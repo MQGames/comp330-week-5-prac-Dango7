@@ -45,7 +45,6 @@ class GameObject {
 		check(isContext(gl), isUniformLocation(worldMatrixUniform, colourUniform));
 
 		// set up coordinate frame
- 		matrix = Matrix.identity();
  		matrix = Matrix.multiply(matrix,
  			Matrix.translation(this.translation[0], this.translation[1]));
  		matrix = Matrix.multiply(matrix,
